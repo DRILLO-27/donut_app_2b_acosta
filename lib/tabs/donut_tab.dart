@@ -6,6 +6,7 @@ class DonutTab extends StatelessWidget {
   //Lista de donas
   final List donutsOnSale = [
     //[donutFlavor, donutStore, donutPrice, donutColor, imageName]
+    
     [
       "Ice Cream",
       "Krispy Cream",
@@ -35,28 +36,28 @@ class DonutTab extends StatelessWidget {
       "lib/images/chocolate_donut.png"
     ],
     [
-      "Ice Cream",
+      "Ice Cream2",
       "Krispy Cream",
       "36",
       Colors.blue,
       "lib/images/icecream_donut.png"
     ],
     [
-      "Strawberry",
+      "Strawberry2",
       "Dunkin Donuts",
       "45",
       Colors.red,
       "lib/images/strawberry_donut.png"
     ],
     [
-      "Grape Ape",
+      "Grape Ape2",
       "Krispy Cream",
       "84",
       Colors.purple,
       "lib/images/grape_donut.png"
     ],
     [
-      "Choco",
+      "Choco2",
       "Dunkin Donuts",
       "95",
       Colors.brown,
