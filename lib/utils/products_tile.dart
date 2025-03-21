@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-class DonutTile extends StatelessWidget {
-  final String donutFlavor;
-  final String donutMark;
-  final String donutPrice;
+class ProductTile extends StatelessWidget {
+  final String productFlavor;
+  final String productMark;
+  final String productPrice;
   //Dynamic porque será de tipo COLOR
-  final dynamic donutColor;
+  final dynamic productColor;
   final dynamic imageName;
   final VoidCallback onAddToCart;
 
-  const DonutTile({
+  const ProductTile({
     super.key,
-    required this.donutFlavor,
-    required this.donutMark,
-    required this.donutPrice,
-    this.donutColor,
+    required this.productFlavor,
+    required this.productMark,
+    required this.productPrice,
+    this.productColor,
     this.imageName,
     required this.onAddToCart,
   });
@@ -25,7 +25,7 @@ class DonutTile extends StatelessWidget {
       padding: const EdgeInsets.all(12.0),
       child: Container(
         decoration: BoxDecoration(
-            color: donutColor[50], borderRadius: BorderRadius.circular(24)),
+            color: productColor[50], borderRadius: BorderRadius.circular(24)),
         child: Column(
           children: [
             //PriceTag
@@ -36,45 +36,45 @@ class DonutTile extends StatelessWidget {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                      color: donutColor[100],
+                      color: productColor[100],
                       borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(24),
                           topRight: Radius.circular(24))),
                   padding:
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   child: Text(
-                    '\$$donutPrice',
+                    '\$$productPrice',
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: donutColor[800]),
+                        color: productColor[800]),
                   ),
                 )
               ],
             ),
-            //Donut Picture
+            //product Picture
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               child: Image.asset(imageName),
             ),
 
-            //Donut Flavor Text
+            //product Flavor Text
             Text(
-              donutFlavor,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+              productFlavor,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
             //Espacio entre texto
             SizedBox(
               height: 4,
             ),
             Text(
-              donutMark,
-              style: TextStyle(fontWeight: FontWeight.normal, fontSize: 10),
+              productMark,
+              style: TextStyle(fontWeight: FontWeight.normal, fontSize: 15),
             ),
 
             //Iconos
             Padding(
-              padding: const EdgeInsets.only(bottom: 15, right: 10, left: 10),
+              padding: const EdgeInsets.only(bottom: 15, right: 25, left: 25),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -84,7 +84,7 @@ class DonutTile extends StatelessWidget {
                     },
                     child: Icon(
                       Icons.favorite_border,
-                      size: 20,
+                      size: 24,
                       color: Colors.black,
                     ),
                   ),
@@ -93,7 +93,7 @@ class DonutTile extends StatelessWidget {
                     child: Text(
                       "Add",
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
                         decoration: TextDecoration.underline,
                         color: Colors.black,

@@ -1,3 +1,4 @@
+import 'package:donut_app_2b_acosta/models/product.dart';
 import 'package:donut_app_2b_acosta/tabs/burger_tab.dart';
 import 'package:donut_app_2b_acosta/tabs/donut_tab.dart';
 import 'package:donut_app_2b_acosta/tabs/pancakes_tab.dart';
@@ -15,50 +16,48 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Widget> myTabs = [
-    //Donut tab
     const MyTab(iconPath: 'lib/icons/donut.png'),
-    //Burger tab
     const MyTab(iconPath: 'lib/icons/burger.png'),
-    //Smoothie tab
     const MyTab(iconPath: 'lib/icons/smoothie.png'),
-    //Pancake tab
     const MyTab(iconPath: 'lib/icons/pancakes.png'),
-    //Pizza tab
-    const MyTab(iconPath: 'lib/icons/pizza.png'),
+    const MyTab(iconPath: 'lib/icons/pizza.png')
   ];
+  // Estado del carrito
+  List<Product> cartItems = [];
+  double totalPrice = 0.0;
+
+  // Método para agregar un producto al carrito
+  void addToCart(Product product) {
+    setState(() {
+      cartItems.add(product);
+      totalPrice += product.price;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    //Este widget sirve para gestionar las pestañas
     return DefaultTabController(
       length: myTabs.length,
       child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.transparent,
-            //Icono de la izquierda
-            leading: Icon(
-              Icons.menu,
-              color: Colors.grey[800],
-            ),
+            leading: Icon(Icons.menu, color: Colors.grey[800]),
+            //Ícono derecho
             actions: [
               Padding(
-                padding: const EdgeInsets.only(right: 24.0),
+                padding: const EdgeInsets.only(right: 24),
                 child: Icon(Icons.person),
               )
             ],
           ),
           body: Column(
             children: [
-              //Texto "I want to eat"
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 36, vertical: 18),
+              //Texto principal
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 36, vertical: 18),
                 child: Row(
                   children: [
-                    Text(
-                      "I want to ",
-                      style: TextStyle(fontSize: 32),
-                    ),
+                    Text("I want to ", style: TextStyle(fontSize: 32)),
                     Text("Eat",
                         style: TextStyle(
                             //Tamaño de letra
@@ -70,53 +69,68 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              //Tab Bar (Pestañas)
+
+              //Pestañas (TapBar)
               TabBar(tabs: myTabs),
-              //Tab bar View (Contenido de pestañas)
+              //Contenido de pestañas (TabBarView)
               Expanded(
-                  child: TabBarView(children: [
-                DonutTab(),
-                BurgerTab(),
-                SmoothieTab(),
-                PancakesTab(),
-                PizzaTab(),
-              ])),
-              //Carrito
+                child: TabBarView(
+                  children: [
+                    DonutTab(addToCart: addToCart),
+                    BurgerTab(addToCart: addToCart),
+                    SmoothieTab(addToCart: addToCart),
+                    PancakesTab(addToCart: addToCart),
+                    PizzaTab(addToCart: addToCart)
+                  ],
+                ),
+              ),
+              //Carrito (Cart)
               Container(
-                  color: Colors.white,
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                          padding: EdgeInsets.only(left: 28),
-                          child: Column(
-                            //Alinear a la izquierda (horizontal)
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('2 Items | \$45',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold)),
-                              Text(
-                                'Delivery Charges Included',
-                                style: TextStyle(fontSize: 12),
-                              ),
-                            ],
-                          )),
-                      ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromARGB(255, 218, 113, 148),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 24, vertical: 12)),
-                          child: const Text(
-                            'View Cart',
-                            style: TextStyle(color: Colors.white),
-                          )),
-                    ],
-                  ))
+                color: Colors.white,
+                padding: EdgeInsets.all(16),
+                child: Row(
+                  //Alinear los elementos a los extremos
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        //Alinear horizontalmente una columna
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                              "${cartItems.length} items | \$${totalPrice.toStringAsFixed(2)}",
+                              style: TextStyle(
+                                //tamaño de letra
+                                fontSize: 18,
+                                //negritas
+                                fontWeight: FontWeight.bold,
+                              )),
+                          Text("Delivery Charges Included"),
+                        ],
+                      ),
+                    ),
+                    ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.pink,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 24, vertical: 12)),
+                        child: Row(
+                          children: [
+                            Icon(Icons.shopping_cart, color: Colors.white),
+                            SizedBox(width: 10),
+                            Text(
+                              'View  Cart',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ))
+                  ],
+                ),
+              )
             ],
           )),
     );
