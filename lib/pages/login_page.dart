@@ -1,5 +1,6 @@
+import 'package:donut_app_2b_acosta/pages/home_page.dart';
 import 'package:donut_app_2b_acosta/pages/phone_auth.dart';
-import 'package:donut_app_2b_acosta/pages/products.dart';
+//import 'package:donut_app_2b_acosta/pages/products.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:donut_app_2b_acosta/screens/products_screen.dart';
@@ -41,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
         // Navegar a la pantalla de productos después de iniciar sesión
         if (!mounted) return;
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const ProductsScreen()),
+          MaterialPageRoute(builder: (context) => const HomePage()),
         );
       } on FirebaseAuthException catch (e) {
         String errorMessage = 'Ocurrió un error al iniciar sesión';
