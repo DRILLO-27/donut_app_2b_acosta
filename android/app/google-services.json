@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "409290937430",
+    "project_id": "donut-tile",
+    "storage_bucket": "donut-tile.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:409290937430:android:0688da4d42607a379d97f7",
+        "android_client_info": {
+          "package_name": "com.example.donut_app_2b_acosta"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDw-gK2URqMk6Ak36LdiliZPULrEFkgpVw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
