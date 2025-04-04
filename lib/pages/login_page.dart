@@ -76,6 +76,33 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  Future<void> _resetPassword() async {
+  if (_emailController.text.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Por favor, ingresa tu correo')),
+    );
+    return;
+  }
+
+  try {
+    await FirebaseAuth.instance.sendPasswordResetEmail(
+      email: _emailController.text.trim(),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Se ha enviado un correo de recuperación')),
+    );
+  } on FirebaseAuthException catch (e) {
+    String errorMessage = 'Ocurrió un error';
+    if (e.code == 'user-not-found') {
+      errorMessage = 'No existe un usuario con este correo';
+    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(errorMessage)),
+    );
+  }
+}
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(      backgroundColor: Colors.transparent, // Set to transparent so the gradient shows
@@ -245,16 +272,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
                 TextButton(
-                  onPressed: () {
-                    // Implementar recuperación de contraseña
-                  },
+                  onPressed: _resetPassword,
                   child: const Text(
-                    'Forgot Password',
+                    'Forgot Password', 
                     style: TextStyle(
-                      color: Colors.purple,
+                      color: Colors.purple
                     ),
-                  ),
-                ),
+)),
                 const SizedBox(height: 16),
                 // Botón para autenticación por teléfono
                 OutlinedButton.icon(
