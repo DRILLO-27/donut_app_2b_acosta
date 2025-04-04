@@ -5,6 +5,25 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:donut_app_2b_acosta/screens/products_screen.dart';
 import 'package:donut_app_2b_acosta/pages/signup.dart';
+// Servicio para autenticarse con google
+import 'package:google_sign_in/google_sign_in.dart';
+
+Future<UserCredential> signInWithGoogle() async {
+  // Trigger the authentication flow
+  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+  // Obtain the auth details from the request
+  final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+  // Create a new credential
+  final credential = GoogleAuthProvider.credential(
+    accessToken: googleAuth?.accessToken,
+    idToken: googleAuth?.idToken,
+  );
+
+  // Once signed in, return the UserCredential
+  return await FirebaseAuth.instance.signInWithCredential(credential);
+}
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -220,11 +239,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _socialButton(Icons.facebook, Colors.blue),
+                    _socialButton(Icons.facebook, Colors.blue, null),
                     const SizedBox(width: 24),
-                    _socialButton(Icons.g_mobiledata, Colors.red),
+                    _socialButton(
+                        Icons.g_mobiledata, Colors.red, signInWithGoogle),
                     const SizedBox(width: 24),
-                    _socialButton(Icons.camera_alt_outlined, Colors.purple),
+                    _socialButton(Icons.camera_alt_outlined, Colors.purple, null),
                   ],
                 ),
                 const SizedBox(height: 24),
@@ -285,10 +305,23 @@ class _LoginScreenState extends State<LoginScreen> {
     ));
   }
 
-  Widget _socialButton(IconData icon, Color color) {
+  Widget _socialButton(IconData icon, Color color, signIn) {
     return InkWell(
-      onTap: () {
-        // Implementar autenticación social
+      onTap: () async {
+        try {
+          final userCredential = await signIn();
+          if (userCredential != null) {
+            if (!mounted) return;
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const HomePage()),
+            );
+          }
+        } catch (e) {
+          if (!mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error al iniciar sesión')),
+          );
+        }
       },
       child: Container(
         padding: const EdgeInsets.all(10),

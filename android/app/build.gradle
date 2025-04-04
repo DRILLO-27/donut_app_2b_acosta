@@ -11,7 +11,7 @@ plugins {
 android {
     namespace = "com.example.donut_app_2b_acosta"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = 23//flutter.ndkVersion
+    ndkVersion = flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
