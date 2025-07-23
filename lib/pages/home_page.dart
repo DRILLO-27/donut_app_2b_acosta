@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage> {
     const MyTab(iconPath: 'lib/icons/pancakes.png'),
     const MyTab(iconPath: 'lib/icons/pizza.png')
   ];
+
   // Estado del carrito
   List<Product> cartItems = [];
   double totalPrice = 0.0;
@@ -39,100 +40,153 @@ class _HomePageState extends State<HomePage> {
     return DefaultTabController(
       length: myTabs.length,
       child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            leading: Icon(Icons.menu, color: Colors.grey[800]),
-            //Ícono derecho
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 24),
-                child: Icon(Icons.person),
-              )
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          leading: Builder(
+            builder: (context) => IconButton(
+              icon: Icon(Icons.menu, color: Colors.grey[800]),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            ),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 24),
+              child: Icon(Icons.person),
+            )
+          ],
+        ),
+
+        // ✅ Drawer integrado
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              const DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 218, 113, 148),
+                ),
+                child: Text(
+                  'Menú',
+                  style: TextStyle(color: Colors.white, fontSize: 24),
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.home),
+                title: Text('Inicio'),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.shopping_cart),
+                title: Text('Mi carrito'),
+                onTap: () {
+                  Navigator.pop(context);
+                  // Aquí podrías navegar a otra pantalla del carrito si la tienes
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.logout),
+                title: Text('Cerrar sesión'),
+                onTap: () {
+                  Navigator.pop(context);
+                  // Lógica de cerrar sesión
+                },
+              ),
             ],
           ),
-          body: Column(
-            children: [
-              //Texto principal
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 36, vertical: 18),
-                child: Row(
-                  children: [
-                    Text("I want to ", style: TextStyle(fontSize: 32)),
-                    Text("Eat",
-                        style: TextStyle(
-                            //Tamaño de letra
-                            fontSize: 32,
-                            //Negritas
-                            fontWeight: FontWeight.bold,
-                            //Subrayado
-                            decoration: TextDecoration.underline))
-                  ],
-                ),
-              ),
+        ),
 
-              //Pestañas (TapBar)
-              TabBar(tabs: myTabs),
-              //Contenido de pestañas (TabBarView)
-              Expanded(
-                child: TabBarView(
-                  children: [
-                    DonutTab(addToCart: addToCart),
-                    BurgerTab(addToCart: addToCart),
-                    SmoothieTab(addToCart: addToCart),
-                    PancakesTab(addToCart: addToCart),
-                    PizzaTab(addToCart: addToCart)
-                  ],
-                ),
-              ),
-              //Carrito (Cart)
-              Container(
-                color: Colors.white,
-                padding: EdgeInsets.all(16),
-                child: Row(
-                  //Alinear los elementos a los extremos
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        //Alinear horizontalmente una columna
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                              "${cartItems.length} items | \$${totalPrice.toStringAsFixed(2)}",
-                              style: TextStyle(
-                                //tamaño de letra
-                                fontSize: 18,
-                                //negritas
-                                fontWeight: FontWeight.bold,
-                              )),
-                          Text("Delivery Charges Included"),
-                        ],
-                      ),
+        body: Column(
+          children: [
+            // Texto principal
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 36, vertical: 18),
+              child: Row(
+                children: [
+                  Text("I want to ", style: TextStyle(fontSize: 32)),
+                  Text(
+                    "Eat",
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
                     ),
-                    ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.pink,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 24, vertical: 12)),
-                        child: Row(
-                          children: [
-                            Icon(Icons.shopping_cart, color: Colors.white),
-                            SizedBox(width: 10),
-                            Text(
-                              'View  Cart',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ))
-                  ],
-                ),
-              )
-            ],
-          )),
+                  ),
+                ],
+              ),
+            ),
+
+            // Pestañas
+            TabBar(tabs: myTabs),
+
+            // Contenido de pestañas
+            Expanded(
+              child: TabBarView(
+                children: [
+                  DonutTab(addToCart: addToCart),
+                  BurgerTab(addToCart: addToCart),
+                  SmoothieTab(addToCart: addToCart),
+                  PancakesTab(addToCart: addToCart),
+                  PizzaTab(addToCart: addToCart),
+                ],
+              ),
+            ),
+
+            // Carrito
+            Container(
+              color: Colors.white,
+              padding: EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "${cartItems.length} items | \$${totalPrice.toStringAsFixed(2)}",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text("Delivery Charges Included"),
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Aquí puedes navegar a una pantalla de carrito si tienes una
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.pink,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.shopping_cart, color: Colors.white),
+                        SizedBox(width: 10),
+                        Text(
+                          'View Cart',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

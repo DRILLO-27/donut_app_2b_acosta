@@ -94,6 +94,8 @@ class BurgerTab extends StatelessWidget {
               addToCart(Product(
                 name: burgersOnSale[index][0],
                 price: price,
+                id: index,
+                stock: 1
               ));
             });
       },
